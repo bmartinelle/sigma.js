@@ -104,7 +104,10 @@
 
     // Deal with sigma events:
     sigma.misc.bindEvents.call(this, this.options.prefix);
-    sigma.misc.drawHovers.call(this, this.options.prefix);
+
+    if(this.settings(options, 'drawLabels')){
+      sigma.misc.drawHovers.call(this, this.options.prefix);
+    }
 
     this.resize(false);
   };
@@ -271,6 +274,7 @@
     // Draw labels:
     // - No batching
     if (drawLabels) {
+     
       renderers = sigma.canvas.labels;
       for (a = this.nodesOnScreen, i = 0, l = a.length; i < l; i++)
         if (!a[i].hidden)

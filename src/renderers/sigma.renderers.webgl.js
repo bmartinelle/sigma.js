@@ -108,7 +108,12 @@
 
     // Deal with sigma events:
     sigma.misc.bindEvents.call(this, this.camera.prefix);
-    sigma.misc.drawHovers.call(this, this.camera.prefix);
+    
+
+    if(this.settings(options, 'drawLabels')){
+       sigma.misc.drawHovers.call(this, this.camera.prefix);
+    }
+   
 
     this.resize();
   };
@@ -424,10 +429,12 @@
       }
     }
 
-    if (drawLabels) {
+//if (drawLabels) {  
+    //CHANGE: BM - so that the quadtree will be fine:  
       a = this.camera.quadtree.area(
         this.camera.getRectangle(this.width, this.height)
       );
+      
 
       // Apply camera view to these nodes:
       this.camera.applyView(
@@ -441,18 +448,21 @@
         }
       );
 
+if (drawLabels) {  
       o = function(key) {
         return self.settings({
           prefix: self.camera.prefix
         }, key);
       };
-
-      for (i = 0, l = a.length; i < l; i++)
-        if (!a[i].hidden)
-          (
-            sigma.canvas.labels[a[i].type] ||
-            sigma.canvas.labels.def
-          )(a[i], this.contexts.labels, o);
+      
+     
+        for (i = 0, l = a.length; i < l; i++)
+          if (!a[i].hidden)
+            (
+              sigma.canvas.labels[a[i].type] ||
+              sigma.canvas.labels.def
+            )(a[i], this.contexts.labels, o);
+   
     }
 
     this.dispatchEvent('render');
